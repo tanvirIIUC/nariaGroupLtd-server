@@ -46,7 +46,7 @@ async function run() {
         });
 
         //get  user
-        app.get('/users', async (req, res) => {
+        app.get('/users',verifyJWT, async (req, res) => {
             const email = req.query.email;
             const query = { email: email };
             const result = await usersCollection.findOne(query);
@@ -183,7 +183,7 @@ async function run() {
                 res.status(500).json({ message: "Error deleting task", error: err.message });
             }
         });
-        app.get('/allTasks', async (req, res) => {
+        app.get('/allTasks',verifyJWT, async (req, res) => {
             try {
                 const tasks = await tasksCollection.aggregate([
                     {
